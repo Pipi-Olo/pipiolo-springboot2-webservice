@@ -27,7 +27,7 @@ public class PostsRepositoryTest {
     }
 
     @Test
-    public void load_post() {
+    public void road_post() {
 
         // given
         String title   = "Test Title";
@@ -66,9 +66,9 @@ public class PostsRepositoryTest {
         // then
         Posts posts = postsList.get(0);
 
-        System.out.println(">>>>>>>>> createDate = " + posts.getCreatedTime() + " modifiedDate = " + posts.getModifiedTime());
+        System.out.println(">>>>>>>>> createDate = " + posts.getCreatedDate() + " modifiedDate = " + posts.getModifiedDate());
 
-        assertThat(posts.getCreatedTime()).isAfter(now);
-        assertThat(posts.getModifiedTime()).isAfter(now);
+        assertThat(posts.getCreatedDate()).isAfter(now);
+        assertThat(posts.getModifiedDate()).isAfter(now);
     }
 }
