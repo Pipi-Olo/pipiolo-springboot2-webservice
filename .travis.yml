@@ -23,11 +23,22 @@ deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY     # Travis repo settings 에서 설정힌 깂
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings 에서 설정힌 깂
-    bucket: pipiolo-springboot-build
+    bucket: pipiolo-springboot-build   # S3 버킷
     region: ap-northeast-2
     skip_cleanup: true
     acl: private # zip 파일 접근 권한 private
     local_dir: deploy # before_deploy 에서 생성한 디렉토리
+    wait-until-deployed: true
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY     # Travis repo settings 에서 설정힌 깂
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings 에서 설정힌 깂
+    bucket: pipiolo-springboot-build   # S3 버킷
+    key: pipiolo-springboot2-webservice.zip
+    bundle_type: zip
+    application: pipiolo-springboot2-webservice # 웹 콘솔에 등록한 CodeDeploy Application
+    deployment_group: pipiolo-springboot2-webservice-group # 웹 콘솔에 등록한 CodeDeploy 배포 그룹
+    region: ap-northeast-2
     wait-until-deployed: true
 
 # CI 실행 완료시 메일로 알람
