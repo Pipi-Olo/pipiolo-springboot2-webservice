@@ -15,7 +15,7 @@ cache:
 script: "./gradlew clean build"
 
 before_deploy:
-  - zip -r pipiolo-springboot2-webservice
+  - zip -r pipiolo-springboot2-webservice *
   - mkdir -p deploy
   - mv pipiolo-springboot2-webservice.zip deploy/pipiolo-springboot2-webservice.zip
 
