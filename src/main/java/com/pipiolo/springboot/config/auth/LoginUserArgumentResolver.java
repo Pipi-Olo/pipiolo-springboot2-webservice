@@ -12,7 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final HttpSession httpSession;
