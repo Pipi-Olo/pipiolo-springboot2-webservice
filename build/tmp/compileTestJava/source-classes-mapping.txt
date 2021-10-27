@@ -1,2 +1,14 @@
-com/pipiolo/springboot/web/HelloControllerTest.java
- com.pipiolo.springboot.web.HelloControllerTest
+com/pipiolo/springboot/domain/post/PostsRepositoryTest.java
+ com.pipiolo.springboot.domain.post.PostsRepositoryTest
+com/pipiolo/springboot/dto/HelloResponseTest.java
+ com.pipiolo.springboot.dto.HelloResponseTest
+com/pipiolo/springboot/controller/HelloControllerTest.java
+ com.pipiolo.springboot.controller.HelloControllerTest
+com/pipiolo/springboot/ApplicationTest.java
+ com.pipiolo.springboot.ApplicationTest
+com/pipiolo/springboot/controller/IndexControllerTest.java
+ com.pipiolo.springboot.controller.IndexControllerTest
+com/pipiolo/springboot/service/PostServiceTest.java
+ com.pipiolo.springboot.service.PostServiceTest
+com/pipiolo/springboot/controller/api/APIPostControllerTest.java
+ com.pipiolo.springboot.controller.api.APIPostControllerTest
