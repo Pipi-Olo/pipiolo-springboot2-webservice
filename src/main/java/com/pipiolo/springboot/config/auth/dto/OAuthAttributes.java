@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.util.Map;
 
+@Deprecated
 @Getter
 public class OAuthAttributes {
 

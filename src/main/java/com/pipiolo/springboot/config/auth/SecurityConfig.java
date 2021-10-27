@@ -3,10 +3,11 @@ package com.pipiolo.springboot.config.auth;
 import com.pipiolo.springboot.domain.user.Role;
 import lombok.RequiredArgsConstructor;
 
+@Deprecated
 @RequiredArgsConstructor
 //@EnableWebSecurity
-public class SecurityConfig // extends
-       // WebSecurityConfigurerAdapter
+public class SecurityConfig
+        // extends WebSecurityConfigurerAdapter
 {
 
     private final CustomOAuth2UserService customOAuth2UserService;

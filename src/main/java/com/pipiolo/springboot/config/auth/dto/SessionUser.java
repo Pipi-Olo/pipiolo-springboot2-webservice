@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
+@Deprecated
 @Getter
 public class SessionUser implements Serializable {
 

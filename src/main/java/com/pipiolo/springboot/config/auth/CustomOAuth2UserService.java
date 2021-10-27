@@ -5,14 +5,16 @@ import com.pipiolo.springboot.config.auth.dto.SessionUser;
 import com.pipiolo.springboot.domain.user.User;
 import com.pipiolo.springboot.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 
+@Deprecated
 @RequiredArgsConstructor
 //@Service
-public class CustomOAuth2UserService { //implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class CustomOAuth2UserService
+//        implements OAuth2UserService<OAuth2UserRequest, OAuth2User>
+{
 
     private final UserRepository userRepository;
     private final HttpSession    httpSession;
@@ -36,12 +38,12 @@ public class CustomOAuth2UserService { //implements OAuth2UserService<OAuth2User
 //                attributes.getAttributes(),
 //                attributes.getNameAttributeKey());
 //    }
-//
-//    private User saveOrUpdate(OAuthAttributes attributes) {
-//        User user = userRepository.findByEmail(attributes.getEmail())
-//                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
-//                .orElse(attributes.toEntity());
-//
-//        return userRepository.save(user);
-//    }
+
+    private User saveOrUpdate(OAuthAttributes attributes) {
+        User user = userRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+                .orElse(attributes.toEntity());
+
+        return userRepository.save(user);
+    }
 }

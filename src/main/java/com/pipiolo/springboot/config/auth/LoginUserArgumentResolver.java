@@ -11,6 +11,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpSession;
 
+@Deprecated
 @RequiredArgsConstructor
 //@Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
