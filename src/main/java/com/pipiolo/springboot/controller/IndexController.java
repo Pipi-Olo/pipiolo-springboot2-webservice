@@ -1,9 +1,9 @@
-package com.pipiolo.springboot.web;
+package com.pipiolo.springboot.controller;
 
 import com.pipiolo.springboot.config.auth.LoginUser;
 import com.pipiolo.springboot.config.auth.dto.SessionUser;
-import com.pipiolo.springboot.service.PostsService;
-import com.pipiolo.springboot.web.dto.PostsResponseDto;
+import com.pipiolo.springboot.service.PostService;
+import com.pipiolo.springboot.dto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +16,12 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class IndexController {
 
-    private final PostsService postsService;
+    private final PostService postService;
     private final HttpSession  httpSession;
 
     @GetMapping("/")
     public String index(Model model, @LoginUser SessionUser user) {
-        model.addAttribute("posts", postsService.findAllDesc());
+        model.addAttribute("posts", postService.findAllDesc());
 
         if (user != null) {
             model.addAttribute("userName", user.getName());
@@ -37,7 +37,7 @@ public class IndexController {
 
     @GetMapping("/posts/update/{id}")
     public String postsUpdate(@PathVariable Long id, Model model) {
-        PostsResponseDto dto = postsService.findById(id);
+        PostResponseDto dto = postService.findById(id);
         model.addAttribute("post", dto);
 
         return "posts-update";

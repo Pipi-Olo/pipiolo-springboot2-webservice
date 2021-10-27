@@ -5,7 +5,7 @@
         <!-- 로그인 기능 영역 -->
         <div class="row">
             <div class="col-md-6">
-                <a href="/posts/save" role="button" class="btn btn-primary">save posts</a>
+                <a href="/post/save" role="button" class="btn btn-primary">save post</a>
 
                 {{#userName}}
                     Logged in as: <span id="user">{{userName}}</span>
@@ -30,14 +30,14 @@
             </tr>
             </thead>
             <tbody id="tbody">
-            {{#posts}}
+            {{#post}}
                 <tr>
                     <td>{{id}}</td>
-                    <td><a href="/posts/update/{{id}}">{{title}}</a></td>
+                    <td><a href="/post/update/{{id}}">{{title}}</a></td>
                     <td>{{author}}</td>
                     <td>{{modifiedDate}}</td>
                 </tr>
-            {{/posts}}
+            {{/post}}
             </tbody>
         </table>
     </div>

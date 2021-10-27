@@ -1,4 +1,4 @@
-package com.pipiolo.springboot.web;
+package com.pipiolo.springboot.controller;
 
 import com.pipiolo.springboot.config.auth.SecurityConfig;
 import org.junit.Test;

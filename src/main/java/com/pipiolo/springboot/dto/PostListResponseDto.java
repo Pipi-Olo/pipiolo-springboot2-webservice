@@ -1,19 +1,19 @@
-package com.pipiolo.springboot.web.dto;
+package com.pipiolo.springboot.dto;
 
-import com.pipiolo.springboot.domain.posts.Posts;
+import com.pipiolo.springboot.domain.post.Post;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class PostsListResponseDto {
+public class PostListResponseDto {
 
     private Long id;
     private String title;
     private String author;
     private LocalDateTime modifiedDate;
 
-    public PostsListResponseDto(Posts entity) {
+    public PostListResponseDto(Post entity) {
         this.id           = entity.getId();
         this.title        = entity.getTitle();
         this.author       = entity.getAuthor();

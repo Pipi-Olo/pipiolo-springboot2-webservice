@@ -1,4 +1,4 @@
-package com.pipiolo.springboot.web.dto;
+package com.pipiolo.springboot.dto;
 
 import org.junit.Test;
 

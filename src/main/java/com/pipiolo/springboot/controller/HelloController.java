@@ -1,6 +1,6 @@
-package com.pipiolo.springboot.web;
+package com.pipiolo.springboot.controller;
 
-import com.pipiolo.springboot.web.dto.HelloResponseDto;
+import com.pipiolo.springboot.dto.HelloResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
