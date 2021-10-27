@@ -22,9 +22,8 @@ com/pipiolo/springboot/domain/post/PostRepository.java
  com.pipiolo.springboot.domain.post.PostRepository
 com/pipiolo/springboot/config/auth/LoginUserArgumentResolver.java
  com.pipiolo.springboot.config.auth.LoginUserArgumentResolver
-com/pipiolo/springboot/dto/PostUpdateRequest.java
- com.pipiolo.springboot.dto.PostUpdateRequest
- com.pipiolo.springboot.dto.PostUpdateRequest$PostUpdateRequestBuilder
+com/pipiolo/springboot/service/PostService.java
+ com.pipiolo.springboot.service.PostService
 com/pipiolo/springboot/domain/BaseTimeEntity.java
  com.pipiolo.springboot.domain.BaseTimeEntity
 com/pipiolo/springboot/dto/PostListResponse.java
@@ -38,20 +37,23 @@ com/pipiolo/springboot/controller/HelloController.java
 com/pipiolo/springboot/config/auth/dto/OAuthAttributes.java
  com.pipiolo.springboot.config.auth.dto.OAuthAttributes
  com.pipiolo.springboot.config.auth.dto.OAuthAttributes$OAuthAttributesBuilder
-com/pipiolo/springboot/domain/user/UserRepository.java
- com.pipiolo.springboot.domain.user.UserRepository
+com/pipiolo/springboot/controller/IndexController.java
+ com.pipiolo.springboot.controller.IndexController
 com/pipiolo/springboot/domain/user/User.java
  com.pipiolo.springboot.domain.user.User
  com.pipiolo.springboot.domain.user.User$UserBuilder
+com/pipiolo/springboot/constant/ErrorCode.java
+ com.pipiolo.springboot.constant.ErrorCode
 com/pipiolo/springboot/config/auth/SecurityConfig.java
  com.pipiolo.springboot.config.auth.SecurityConfig
 com/pipiolo/springboot/domain/user/Role.java
  com.pipiolo.springboot.domain.user.Role
 com/pipiolo/springboot/config/auth/CustomOAuth2UserService.java
  com.pipiolo.springboot.config.auth.CustomOAuth2UserService
-com/pipiolo/springboot/service/PostService.java
- com.pipiolo.springboot.service.PostService
-com/pipiolo/springboot/controller/IndexController.java
- com.pipiolo.springboot.controller.IndexController
+com/pipiolo/springboot/domain/user/UserRepository.java
+ com.pipiolo.springboot.domain.user.UserRepository
+com/pipiolo/springboot/dto/PostUpdateRequest.java
+ com.pipiolo.springboot.dto.PostUpdateRequest
+ com.pipiolo.springboot.dto.PostUpdateRequest$PostUpdateRequestBuilder
 com/pipiolo/springboot/controller/api/APIPostController.java
  com.pipiolo.springboot.controller.api.APIPostController
