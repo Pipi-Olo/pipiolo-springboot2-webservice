@@ -3,8 +3,8 @@ package com.pipiolo.springboot.controller.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pipiolo.springboot.domain.post.Post;
 import com.pipiolo.springboot.domain.post.PostRepository;
-import com.pipiolo.springboot.dto.PostSaveRequestDto;
-import com.pipiolo.springboot.dto.PostUpdateRequestDto;
+import com.pipiolo.springboot.dto.PostRequest;
+import com.pipiolo.springboot.dto.PostUpdateRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +64,7 @@ public class PostApiControllerTest {
         // given
         String title = "title";
         String content = "content";
-        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
+        PostRequest requestDto = PostRequest.builder()
                                                                 .title(title)
                                                                 .content(content)
                                                                 .author("author")
@@ -98,14 +98,14 @@ public class PostApiControllerTest {
         String expectedTitle   = "title2";
         String expectedContent = "content2";
 
-        PostUpdateRequestDto requestDto = PostUpdateRequestDto.builder()
+        PostUpdateRequest requestDto = PostUpdateRequest.builder()
                                                                     .title(expectedTitle)
                                                                     .content(expectedContent)
                                                                     .build();
 
         String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
 
-        HttpEntity<PostUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        HttpEntity<PostUpdateRequest> requestEntity = new HttpEntity<>(requestDto);
 
         // when
         mvc.perform(put(url)

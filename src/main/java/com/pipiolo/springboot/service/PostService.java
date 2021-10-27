@@ -2,11 +2,11 @@ package com.pipiolo.springboot.service;
 
 import com.pipiolo.springboot.domain.post.Post;
 import com.pipiolo.springboot.domain.post.PostRepository;
-import com.pipiolo.springboot.dto.PostListResponseDto;
-import com.pipiolo.springboot.dto.PostResponseDto;
-import com.pipiolo.springboot.dto.PostSaveRequestDto;
+import com.pipiolo.springboot.dto.PostListResponse;
+import com.pipiolo.springboot.dto.PostResponse;
+import com.pipiolo.springboot.dto.PostRequest;
 
-import com.pipiolo.springboot.dto.PostUpdateRequestDto;
+import com.pipiolo.springboot.dto.PostUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +21,12 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Long save(PostSaveRequestDto requestDto) {
+    public Long save(PostRequest requestDto) {
         return postRepository.save(requestDto.toEntity()).getId();
     }
 
     @Transactional
-    public Long update(Long id, PostUpdateRequestDto requestDto) {
+    public Long update(Long id, PostUpdateRequest requestDto) {
         Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Can not find. id = " + id));
         post.update(requestDto.getTitle(), requestDto.getContent());
 
@@ -39,16 +39,16 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    public PostResponseDto findById(Long id) {
+    public PostResponse findById(Long id) {
         Post entity = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Can not find id = " + id));
 
-        return new PostResponseDto(entity);
+        return new PostResponse(entity);
     }
 
     @Transactional(readOnly = true)
-    public List<PostListResponseDto> findAllDesc() {
+    public List<PostListResponse> findAllDesc() {
         return postRepository.findAllDesc().stream()
-                .map(PostListResponseDto::new)
+                .map(PostListResponse::new)
                 .collect(Collectors.toList());
     }
 }

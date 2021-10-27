@@ -3,7 +3,7 @@ package com.pipiolo.springboot.controller;
 import com.pipiolo.springboot.config.auth.LoginUser;
 import com.pipiolo.springboot.config.auth.dto.SessionUser;
 import com.pipiolo.springboot.service.PostService;
-import com.pipiolo.springboot.dto.PostResponseDto;
+import com.pipiolo.springboot.dto.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +37,7 @@ public class IndexController {
 
     @GetMapping("/posts/update/{id}")
     public String postsUpdate(@PathVariable Long id, Model model) {
-        PostResponseDto dto = postService.findById(id);
+        PostResponse dto = postService.findById(id);
         model.addAttribute("post", dto);
 
         return "posts-update";
