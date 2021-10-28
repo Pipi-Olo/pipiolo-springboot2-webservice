@@ -4,6 +4,7 @@ import com.pipiolo.springboot.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -16,12 +17,15 @@ public class Post extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(length = 500, nullable = false)
     private String title;
 
+    @Setter
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    @Setter
     private String author;
 
     @Builder

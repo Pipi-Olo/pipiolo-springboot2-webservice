@@ -12,6 +12,9 @@ import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.pipiolo.springboot.exception.ErrorCode.BAD_REQUEST;
+import static com.pipiolo.springboot.exception.ErrorCode.OK;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -51,8 +54,8 @@ class APIPostControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.errorCode").value("OK"))
-                .andExpect(jsonPath("$.message").value("OK"));
+                .andExpect(jsonPath("$.errorCode").value(OK))
+                .andExpect(jsonPath("$.message").value(OK.getMessage()));
     }
 
     @DisplayName("[API][GET] 단일 포스트 조회 - 장소 있는 경우")
@@ -63,6 +66,23 @@ class APIPostControllerTest {
 
         // When & Then
 
+    }
+
+    @DisplayName("[API][GET] 단일 포스트 조회 - 장소 없는 경우")
+    @Test
+    void givenPostId_whenRequestingNonExistentPost_thenReturnsFailed() throws Exception {
+        // Given
+        Long postId = 1L;
+
+        // When & Then
+//        mvc.perform(
+//                get("/api/v1/posts/" + postId)
+//        )
+//                .andExpect(status().isOk())
+////                .andExpect(jsonPath("$.data").isEmpty())
+//                .andExpect(jsonPath("$.success").value(true))
+//                .andExpect(jsonPath("$.errorCode").value(OK))
+//                .andExpect(jsonPath("$.message").value(OK.getMessage()));
     }
 
 //    @Test
