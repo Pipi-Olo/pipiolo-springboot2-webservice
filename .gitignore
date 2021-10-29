@@ -26,9 +26,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### NetBeans ###git rm -r --cached .
-                #git add .
-                #git commit -m "fixed untracked files"
+### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
