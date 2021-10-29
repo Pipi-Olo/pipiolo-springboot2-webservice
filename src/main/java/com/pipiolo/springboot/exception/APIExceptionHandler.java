@@ -2,52 +2,60 @@ package com.pipiolo.springboot.exception;
 
 import com.pipiolo.springboot.dto.APIErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
-import static com.pipiolo.springboot.exception.ErrorCode.BAD_REQUEST;
 import static com.pipiolo.springboot.exception.ErrorCode.INTERNAL_ERROR;
+import static com.pipiolo.springboot.exception.ErrorCode.VALIDATION_ERROR;
 
 @Slf4j
 @RestControllerAdvice
-public class APIExceptionHandler {
+public class APIExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(APIException.class)
-    public APIErrorResponse handleException(
+    public ResponseEntity<Object> general(
             APIException e,
-            HttpServletRequest request
+            WebRequest request
     ) {
-        log.error("errorCode: {}, url: {}, message: {}",
-                e.getErrorCode(), request.getRequestURI(), e.getMessage());
-
-        return APIErrorResponse.of(e);
+        return handleExceptionInternal(e, e.getErrorCode(), request);
     }
 
-    @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
-    public APIErrorResponse handleBadRequest(
-            APIException e,
-            HttpServletRequest request
+    @ExceptionHandler
+    public ResponseEntity<Object> exception(
+            Exception e,
+            WebRequest request
     ) {
-        log.error("errorCode: {}, url: {}, message: {}",
-                e.getErrorCode(), request.getRequestURI(), e.getMessage());
-
-        return APIErrorResponse.of(BAD_REQUEST);
+        return handleExceptionInternal(e, INTERNAL_ERROR, request);
     }
 
-    @ExceptionHandler(value = Exception.class)
-    public APIErrorResponse handleGeneralException(
-            APIException e,
-            HttpServletRequest request
-    ) {
-        log.error("errorCode: {}, url: {}, message: {}",
-                e.getErrorCode(), request.getRequestURI(), e.getMessage());
-
-        return APIErrorResponse.of(INTERNAL_ERROR);
+    @ExceptionHandler
+    public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
+        return handleExceptionInternal(e, VALIDATION_ERROR, request);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return handleExceptionInternal(ex, ErrorCode.valueOf(status), headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleExceptionInternal(Exception e, ErrorCode errorCode, WebRequest request) {
+        return handleExceptionInternal(e, errorCode, HttpHeaders.EMPTY, errorCode.getHttpStatus(), request);
+    }
+
+    private ResponseEntity<Object> handleExceptionInternal(Exception e, ErrorCode errorCode, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return super.handleExceptionInternal(
+                e,
+                APIErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(e)),
+                headers,
+                status,
+                request
+        );
+    }
 }
