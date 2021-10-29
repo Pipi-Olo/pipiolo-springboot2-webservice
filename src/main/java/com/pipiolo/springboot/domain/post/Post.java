@@ -5,11 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Post extends BaseTimeEntity {
 
@@ -18,14 +23,15 @@ public class Post extends BaseTimeEntity {
     private Long id;
 
     @Setter
-    @Column(length = 500, nullable = false)
+    @Column(nullable = false)
     private String title;
 
     @Setter
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(nullable = false)
     private String content;
 
     @Setter
+    @Column
     private String author;
 
     @Builder
