@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.*;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static com.pipiolo.springboot.exception.ErrorCode.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("API 컨트롤러 - Post")
@@ -45,14 +47,14 @@ class APIPostControllerTest {
         // When & Then
         mvc.perform(
                 post("/api/v1/posts")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content(mapper.writeValueAsString(postRequest))
         )
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.errorCode").value("OK"))
-                .andExpect(jsonPath("$.message").value("OK"));
+                .andExpect(jsonPath("$.errorCode").value(OK.getCode()))
+                .andExpect(jsonPath("$.message").value(OK.getMessage()));
     }
 
     @DisplayName("[API][GET] 단일 포스트 조회 - 장소 있는 경우")
@@ -62,68 +64,105 @@ class APIPostControllerTest {
         Long postId = 1L;
 
         // When & Then
+        mvc.perform(
+                get("/api/v1/posts/" + postId)
+        )
+                .andExpect(status().isOk())
+                //.andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.errorCode").value(OK.getCode()))
+                .andExpect(jsonPath("$.message").value(OK.getMessage()));
 
     }
 
-//    @Test
-//    //@WithMockUser(roles = "USER")
-//    public void save_posts() throws Exception {
-//
-//        // given
-//        String title = "title";
-//        String content = "content";
-//        PostRequest requestDto = PostRequest.builder()
-//                                                                .title(title)
-//                                                                .content(content)
-//                                                                .author("author")
-//                                                                .build();
-//
-//        String url = "http://localhost:" + port + "/api/v1/posts";
-//
-//        // when
-//        mvc.perform(post(url)
-//                .contentType(MediaType.APPLICATION_JSON_UTF8)
-//                .content(new ObjectMapper().writeValueAsString(requestDto)))
-//                .andExpect(status().isOk());
-//
-//        List<Post> all = postRepository.findAll();
-//        assertThat(all.get(0).getTitle()).isEqualTo(title);
-//        assertThat(all.get(0).getContent()).isEqualTo(content);
-//    }
-//
-//    @Test
-//    //@WithMockUser(roles = "USER")
-//    public void update_posts() throws Exception {
-//
-//        // given
-//        Post savedPost = postRepository.save(Post.builder()
-//                                                        .title("title")
-//                                                        .content("content")
-//                                                        .author("author")
-//                                                        .build());
-//
-//        Long updateId = savedPost.getId();
-//        String expectedTitle   = "title2";
-//        String expectedContent = "content2";
-//
-//        PostUpdateRequest requestDto = PostUpdateRequest.builder()
-//                                                                    .title(expectedTitle)
-//                                                                    .content(expectedContent)
-//                                                                    .build();
-//
-//        String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
-//
-//        HttpEntity<PostUpdateRequest> requestEntity = new HttpEntity<>(requestDto);
-//
-//        // when
-//        mvc.perform(put(url)
-//                .contentType(MediaType.APPLICATION_JSON_UTF8)
-//                .content(new ObjectMapper().writeValueAsString(requestDto)))
-//                .andExpect(status().isOk());
-//
-//        // then
-//        List<Post> all = postRepository.findAll();
-//        assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
-//        assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
-//    }
+    @DisplayName("[API][GET] 단일 포스트 조회 - 잘못된 파라미터")
+    @Test
+    void givenPostId_whenRequestingNonExistentPost_thenReturnsFailed() throws Exception {
+        // Given
+        Long postId = -1L;
+
+        // When & Then
+        mvc.perform(
+                get("/api/v1/posts/" + postId)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.errorCode").value(VALIDATION_ERROR.getCode()))
+                .andExpect(jsonPath("$.message").value(containsString(VALIDATION_ERROR.getMessage())));
+    }
+
+    @DisplayName("[API][GET] 리스트 포스트 조회")
+    @Test
+    void givenNothing_whenRequestPosts_thenReturnsListOfPost() throws Exception {
+        // Given
+
+        // When & Then
+        mvc.perform(
+                        get("/api/v1/posts")
+                                .contentType(APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.data").isArray())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.errorCode").value(OK.getCode()))
+                .andExpect(jsonPath("$.message").value(OK.getMessage()));
+
+    }
+
+    @DisplayName("[API][PUT] 포스트 변경")
+    @Test
+    void givenPostIdAndInfo_whenUpdatePost_thenReturnsSuccessful() throws Exception{
+        // Given
+        Long postId = 1L;
+        PostRequest request = PostRequest.builder()
+                .title("title2")
+                .content("content2")
+                .author("author2")
+                .build();
+
+        // When & Then
+        mvc.perform(
+                put("/api/v1/posts/" + postId)
+                        .contentType(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(request))
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.errorCode").value(OK.getCode()))
+                .andExpect(jsonPath("$.message").value(OK.getMessage()));
+    }
+
+    @DisplayName("[API][DELETE] 포스트 삭제")
+    @Test
+    void givenPostId_whenDeletePost_thenReturnsSuccessful() throws Exception {
+        // Given
+        Long postId = 1L;
+
+        // When & Then
+        mvc.perform(
+                delete("/api/v1/posts/" + postId)
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.errorCode").value(OK.getCode()))
+                .andExpect(jsonPath("$.message").value(OK.getMessage()));
+    }
+
+    @DisplayName("[API][DELETE] 포스트 삭제 - 잘못된 파라미터")
+    @Test
+    void givenWrongPostId_whenDeletePost_thenReturnsFailed() throws Exception {
+        // Given
+        Long postId = -1L;
+
+        // When & Then
+        mvc.perform(delete("/api/v1/posts/" + postId))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.errorCode").value(VALIDATION_ERROR.getCode()))
+                .andExpect(jsonPath("$.message").value(containsString(VALIDATION_ERROR.getMessage())));
+    }
 }

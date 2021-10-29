@@ -2,17 +2,17 @@ package com.pipiolo.springboot.service;
 
 import com.pipiolo.springboot.domain.post.Post;
 import com.pipiolo.springboot.domain.post.PostRepository;
-import com.pipiolo.springboot.dto.PostListResponse;
-import com.pipiolo.springboot.dto.PostResponse;
-import com.pipiolo.springboot.dto.PostRequest;
+import com.pipiolo.springboot.dto.*;
 
-import com.pipiolo.springboot.dto.PostUpdateRequest;
+import com.pipiolo.springboot.exception.APIException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.pipiolo.springboot.exception.ErrorCode.NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -21,34 +21,35 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Long save(PostRequest requestDto) {
-        return postRepository.save(requestDto.toEntity()).getId();
+    public void save(PostRequest request) {
+        postRepository.save(request.toEntity());
     }
 
-    @Transactional
-    public Long update(Long id, PostUpdateRequest requestDto) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Can not find. id = " + id));
-        post.update(requestDto.getTitle(), requestDto.getContent());
-
-        return id;
-    }
-
-    @Transactional
-    public void delete(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Can not find. id = " + id));
-        postRepository.delete(post);
-    }
-
+    @Transactional(readOnly = true)
     public PostResponse findById(Long id) {
-        Post entity = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Can not find id = " + id));
-
+        Post entity = postRepository.findById(id)
+                .orElseThrow(() -> new APIException(NOT_FOUND));
         return new PostResponse(entity);
     }
 
     @Transactional(readOnly = true)
-    public List<PostListResponse> findAllDesc() {
+    public List<PostResponse> findAllDesc() {
         return postRepository.findAllDesc().stream()
-                .map(PostListResponse::new)
+                .map(PostResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void update(Long id, PostRequest request) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new APIException(NOT_FOUND));
+        post.update(request.getTitle(), request.getContent());
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new APIException(NOT_FOUND));
+        postRepository.delete(post);
     }
 }
