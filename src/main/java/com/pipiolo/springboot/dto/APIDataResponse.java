@@ -1,13 +1,20 @@
 package com.pipiolo.springboot.dto;
 
-import com.pipiolo.springboot.exception.ErrorCode;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
+import static com.pipiolo.springboot.exception.ErrorCode.OK;
+
+@Getter
+@ToString
+@EqualsAndHashCode(callSuper = true)
 public class APIDataResponse<T> extends APIErrorResponse {
 
     private final T data;
 
     private APIDataResponse(T data) {
-        super(true, ErrorCode.OK, "OK");
+        super(true, OK.getCode(), OK.getMessage());
         this.data = data;
     }
 
