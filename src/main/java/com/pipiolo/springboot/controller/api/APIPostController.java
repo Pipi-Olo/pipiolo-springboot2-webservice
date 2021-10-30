@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class APIPostController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/posts")
-    public APIDataResponse<Void> save(@RequestBody PostRequest request) {
+    public APIDataResponse<Void> save(@Valid @RequestBody PostRequest request) {
         postService.save(request);
         return APIDataResponse.empty();
     }
@@ -43,7 +44,7 @@ public class APIPostController {
     @PutMapping("/posts/{id}")
     public APIDataResponse<Void> update(
             @PathVariable Long id,
-            @RequestBody PostRequest request
+            @Valid @RequestBody PostRequest request
     ) {
         postService.update(id, request);
         return APIDataResponse.empty();
