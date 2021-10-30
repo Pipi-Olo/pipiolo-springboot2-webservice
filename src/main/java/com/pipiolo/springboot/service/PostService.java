@@ -9,10 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.pipiolo.springboot.exception.ErrorCode.NOT_FOUND;
+import static com.pipiolo.springboot.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -22,6 +23,7 @@ public class PostService {
 
     @Transactional
     public void save(PostRequest request) {
+        validate(request);
         postRepository.save(request.toEntity());
     }
 
@@ -41,6 +43,7 @@ public class PostService {
 
     @Transactional
     public void update(Long id, PostRequest request) {
+        validate(request);
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new APIException(NOT_FOUND));
         post.update(request.getTitle(), request.getContent());
@@ -51,5 +54,12 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new APIException(NOT_FOUND));
         postRepository.delete(post);
+    }
+
+    private void validate(@NotNull PostRequest request) {
+        // TODO : 임시 비니지스 validation 추후 변경 예정
+        if (request.getTitle().contains("#")) {
+            throw new APIException(WRONG_TITLE);
+        }
     }
 }

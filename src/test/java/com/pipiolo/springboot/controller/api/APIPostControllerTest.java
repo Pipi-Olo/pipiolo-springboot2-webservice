@@ -3,12 +3,12 @@ package com.pipiolo.springboot.controller.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pipiolo.springboot.dto.PostRequest;
 import com.pipiolo.springboot.service.PostService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.pipiolo.springboot.exception.ErrorCode.*;
@@ -36,7 +36,7 @@ class APIPostControllerTest {
 
     @DisplayName("[API][POST] 포스트 생성")
     @Test
-    void givenPost_whenCreatingPost_thenReturnsSuccessfulResponse() throws Exception {
+    void givenPost_whenCreatingPost_thenReturnsSuccessful() throws Exception {
         // Given
         PostRequest postRequest = PostRequest.builder()
                 .title("title")
@@ -49,12 +49,36 @@ class APIPostControllerTest {
                 post("/api/v1/posts")
                         .contentType(APPLICATION_JSON)
                         .content(mapper.writeValueAsString(postRequest))
-        )
+                )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.errorCode").value(OK.getCode()))
                 .andExpect(jsonPath("$.message").value(OK.getMessage()));
+    }
+
+    @Disabled("Business Validation 에 대한 명확한 스펙 이후에 활용 예정")
+    @DisplayName("[API][POST] 포스트 생성 - 잘못된 파라미터 - Business Validation")
+    @Test
+    void givenWrongPost_whenCreatingPost_thenReturnsFailed() throws Exception {
+        // Given
+        PostRequest postRequest = PostRequest.builder()
+                .title("title#")
+                .content("content")
+                .author("author")
+                .build();
+
+        // When & Then
+        mvc.perform(
+                post("/api/v1/posts")
+                        .contentType(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(postRequest))
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.errorCode").value(WRONG_TITLE.getCode()))
+                .andExpect(jsonPath("$.message").value(WRONG_TITLE.getMessage()));
     }
 
     @DisplayName("[API][GET] 단일 포스트 조회 - 장소 있는 경우")
@@ -68,7 +92,6 @@ class APIPostControllerTest {
                 get("/api/v1/posts/" + postId)
         )
                 .andExpect(status().isOk())
-                //.andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.errorCode").value(OK.getCode()))
                 .andExpect(jsonPath("$.message").value(OK.getMessage()));
@@ -88,8 +111,8 @@ class APIPostControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.errorCode").value(VALIDATION_ERROR.getCode()))
-                .andExpect(jsonPath("$.message").value(containsString(VALIDATION_ERROR.getMessage())));
+                .andExpect(jsonPath("$.errorCode").value(DATA_VALIDATION_ERROR.getCode()))
+                .andExpect(jsonPath("$.message").value(containsString(DATA_VALIDATION_ERROR.getMessage())));
     }
 
     @DisplayName("[API][GET] 리스트 포스트 조회")
@@ -162,7 +185,7 @@ class APIPostControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.errorCode").value(VALIDATION_ERROR.getCode()))
-                .andExpect(jsonPath("$.message").value(containsString(VALIDATION_ERROR.getMessage())));
+                .andExpect(jsonPath("$.errorCode").value(DATA_VALIDATION_ERROR.getCode()))
+                .andExpect(jsonPath("$.message").value(containsString(DATA_VALIDATION_ERROR.getMessage())));
     }
 }

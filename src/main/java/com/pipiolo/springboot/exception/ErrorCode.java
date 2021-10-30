@@ -15,11 +15,13 @@ public enum ErrorCode {
     OK(0, HttpStatus.OK, "OK"),
 
     BAD_REQUEST(10000, HttpStatus.BAD_REQUEST, "Bad request"),
-    VALIDATION_ERROR(10001, HttpStatus.BAD_REQUEST, "Validation error"),
+    DATA_VALIDATION_ERROR(10001, HttpStatus.BAD_REQUEST, "Data Validation error"),
     NOT_FOUND(10002, HttpStatus.NOT_FOUND, "Requested resource is not found"),
 
     INTERNAL_ERROR(20000, HttpStatus.INTERNAL_SERVER_ERROR, "Internal error"),
-    DATA_ACCESS_ERROR(20001, HttpStatus.INTERNAL_SERVER_ERROR, "Data access error")
+    DATA_ACCESS_ERROR(20001, HttpStatus.INTERNAL_SERVER_ERROR, "Data access error"),
+
+    WRONG_TITLE(30000, HttpStatus.BAD_REQUEST, "Title do not have to contain '#'")
     ;
 
     private final Integer code;
