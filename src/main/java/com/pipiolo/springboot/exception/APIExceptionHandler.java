@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.validation.ConstraintViolationException;
 
 import static com.pipiolo.springboot.exception.ErrorCode.INTERNAL_ERROR;
-import static com.pipiolo.springboot.exception.ErrorCode.VALIDATION_ERROR;
+import static com.pipiolo.springboot.exception.ErrorCode.DATA_VALIDATION_ERROR;
 
 @Slf4j
 @RestControllerAdvice
@@ -37,7 +37,7 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
-        return handleExceptionInternal(e, VALIDATION_ERROR, request);
+        return handleExceptionInternal(e, DATA_VALIDATION_ERROR, request);
     }
 
     @Override
