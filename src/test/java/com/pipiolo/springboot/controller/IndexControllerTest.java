@@ -1,5 +1,6 @@
 package com.pipiolo.springboot.controller;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,7 +9,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@RunWith(SpringRunner.class)
+@Deprecated
+@Disabled("뷰 컨트롤러 변경 예정")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class IndexControllerTest {
 
