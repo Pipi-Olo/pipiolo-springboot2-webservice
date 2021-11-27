@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#postTitle" th:text="'Post List'" />
+    <attr sel="#postTable">
+        <attr sel="tbody">
+            <attr sel="tr[0]" th:each="post : ${posts}">
+                <attr sel="td.title" th:text="${post.title}" />
+                <attr sel="td.author" th:text="${post.author}" />
+                <attr sel="td.content" th:text="${post.content}" />
+            </attr>
+        </attr>
+    </attr>
+</thlogic>
