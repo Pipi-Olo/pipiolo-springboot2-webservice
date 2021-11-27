@@ -16,7 +16,7 @@ import java.util.List;
 
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 @RestController
 public class APIPostController {
 
