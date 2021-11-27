@@ -1,17 +1,23 @@
 package com.pipiolo.springboot.domain.user;
 
 import com.pipiolo.springboot.domain.BaseTimeEntity;
+import com.pipiolo.springboot.dto.user.SignupRequest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 
-@Deprecated
+import static com.pipiolo.springboot.domain.user.Role.*;
+
 @Getter
 @NoArgsConstructor
-//@Entity
-public class User extends BaseTimeEntity {
+@Entity
+public class User extends BaseTimeEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,29 +29,65 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column
-    private String picture;
-
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    private String password;
+
+    @Column
     private Role role;
 
     @Builder
-    public User(String name, String email, String picture, Role role) {
-        this.name    = name;
-        this.email   = email;
-        this.picture = picture;
-        this.role    = role;
+    public User(
+            String name,
+            String email,
+            String password,
+            Role role
+    ) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
-    public User update(String name, String picture) {
-        this.name    = name;
-        this.picture = picture;
-
-        return this;
+    public boolean isPasswordMatch(String password) {
+        return this.password.equals(password);
     }
 
-    public String getRoleKey() {
-        return this.role.getKey();
+    public Boolean isAdmin() {
+        return role.equals(ADMIN);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton((GrantedAuthority) () -> String.valueOf(role));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
