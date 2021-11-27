@@ -1,22 +1,18 @@
 package com.pipiolo.springboot.service;
 
-import com.pipiolo.springboot.domain.user.Role;
 import com.pipiolo.springboot.domain.user.User;
 import com.pipiolo.springboot.domain.user.UserRepository;
 import com.pipiolo.springboot.dto.user.LoginRequest;
 import com.pipiolo.springboot.dto.user.SignupRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 import static com.pipiolo.springboot.domain.user.Role.*;
 

@@ -1,7 +1,6 @@
 package com.pipiolo.springboot.domain.user;
 
 import com.pipiolo.springboot.domain.BaseTimeEntity;
-import com.pipiolo.springboot.dto.user.SignupRequest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
