@@ -27,10 +27,9 @@ public class UserController {
 
     @PostMapping("/signup")
     public String signup(
-            @Valid @ModelAttribute SignupRequest request,
-            HttpSession session
+            @Valid @ModelAttribute SignupRequest request
     ) {
-        userService.signup(request, session);
+        userService.signup(request);
         return "redirect:login";
     }
 

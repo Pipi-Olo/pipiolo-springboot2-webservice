@@ -31,19 +31,31 @@ public class UserService implements UserDetailsService {
     private static final String LOGIN_SESSION_KEY = "USER_ID";
 
     @Transactional
-    public void signup(SignupRequest request, HttpSession session) {
+    public void signup(SignupRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new IllegalArgumentException(request.getEmail() + "은 이미 있는 Email 입니다.");
         }
 
-        User user = userRepository.save(User.builder()
+        userRepository.save(User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(USER)
                 .build());
+    }
 
-        session.setAttribute(LOGIN_SESSION_KEY, user.getId());
+    @Transactional
+    public void signupAdmin(SignupRequest request) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new IllegalArgumentException(request.getEmail() + "은 이미 있는 Email 입니다.");
+        }
+
+        userRepository.save(User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(ADMIN)
+                .build());
     }
 
     @Transactional
