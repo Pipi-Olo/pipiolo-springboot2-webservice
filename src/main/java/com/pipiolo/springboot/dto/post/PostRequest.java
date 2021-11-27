@@ -1,4 +1,4 @@
-package com.pipiolo.springboot.dto;
+package com.pipiolo.springboot.dto.post;
 
 import com.pipiolo.springboot.domain.post.Post;
 import lombok.Builder;

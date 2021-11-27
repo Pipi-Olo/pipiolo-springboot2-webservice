@@ -2,8 +2,8 @@ package com.pipiolo.springboot.controller.api;
 
 import com.pipiolo.springboot.dto.APIDataResponse;
 import com.pipiolo.springboot.service.PostService;
-import com.pipiolo.springboot.dto.PostResponse;
-import com.pipiolo.springboot.dto.PostRequest;
+import com.pipiolo.springboot.dto.post.PostResponse;
+import com.pipiolo.springboot.dto.post.PostRequest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
