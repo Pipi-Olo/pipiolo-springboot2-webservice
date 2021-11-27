@@ -1,7 +1,7 @@
 package com.pipiolo.springboot.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pipiolo.springboot.dto.PostRequest;
+import com.pipiolo.springboot.dto.post.PostRequest;
 import com.pipiolo.springboot.service.PostService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;

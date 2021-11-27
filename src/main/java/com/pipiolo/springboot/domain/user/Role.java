@@ -1,15 +1,13 @@
 package com.pipiolo.springboot.domain.user;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@Deprecated
 @Getter
 @RequiredArgsConstructor
 public enum Role {
 
-    GUEST("ROLE_GUEST", "GUEST"),
+    ADMIN("ROLE_ADMIN", "ADMIN"),
     USER("ROLE_USER", "USER");
 
     private final String key;

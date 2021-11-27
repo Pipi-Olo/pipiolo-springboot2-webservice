@@ -2,8 +2,9 @@ package com.pipiolo.springboot.service;
 
 import com.pipiolo.springboot.domain.post.Post;
 import com.pipiolo.springboot.domain.post.PostRepository;
-import com.pipiolo.springboot.dto.*;
 
+import com.pipiolo.springboot.dto.post.PostRequest;
+import com.pipiolo.springboot.dto.post.PostResponse;
 import com.pipiolo.springboot.exception.APIException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
