@@ -58,7 +58,6 @@ public class PostService {
     }
 
     private void validate(@NotNull PostRequest request) {
-        // TODO : 임시 비니지스 validation 추후 변경 예정
         if (request.getTitle().contains("#")) {
             throw new APIException(WRONG_TITLE);
         }
