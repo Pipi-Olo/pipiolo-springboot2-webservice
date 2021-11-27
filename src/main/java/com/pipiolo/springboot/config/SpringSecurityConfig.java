@@ -29,8 +29,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/home", "/signup").permitAll()
-                .antMatchers("/post").hasRole("USER");
-//                .anyRequest().authenticated();
+                .antMatchers("/post").hasRole("USER")
+                .antMatchers("/admin").hasRole("ADMIN");
 
         http.authorizeRequests()
                 .antMatchers("h2-console/**").permitAll()
@@ -45,8 +45,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/");
     }
-
-
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
