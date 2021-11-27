@@ -58,7 +58,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton((GrantedAuthority) () -> String.valueOf(role));
+        return Collections.singleton((GrantedAuthority) () -> role.getKey());
     }
 
     @Override
